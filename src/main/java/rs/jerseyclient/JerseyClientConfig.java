@@ -16,6 +16,12 @@ public class JerseyClientConfig {
 	private boolean verbose     = false;
 	
 	/**
+	 * Default constructor.
+	 */
+	public JerseyClientConfig() {
+	}
+
+	/**
 	 * Constructor.
 	 * @param uri - Base URI of the API that needs to be targeted.
 	 * @param verbose - whether the Jersey client shall be configured to be verbose.
