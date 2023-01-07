@@ -25,7 +25,7 @@ import rs.jerseyclient.data.HateOasPagedList.EmbeddedResultList;
  */
 public abstract class AbstractClient {
 
-	protected static Logger log;
+	private Logger log;
 
 	private ClientHolder clients = null;
 	
@@ -153,6 +153,14 @@ public abstract class AbstractClient {
 			}
 		}
 		return new ResultList<>(CommonUtils.newList(), pagedList.getPage());
+	}
+	
+	/**
+	 * Returns the logger for this client.
+	 * @return the logger
+	 */
+	public Logger getLog() {
+		return log;
 	}
 	
 }
