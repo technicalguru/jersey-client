@@ -18,8 +18,11 @@ import rs.jerseyclient.util.ClientUtils;
  */
 public class JerseyClient extends AbstractClient {
 
+	/** Default name for User-Agent */
 	public static String NAME    = "jersey-client";
+	/** Default version for User-Agent */
 	public static String VERSION = "1.0.0";
+	/** Default URL for User-Agent */
 	public static String URL     = "https://github.com/technicalguru/jersey-client";
 	
 	private Client             client;
@@ -53,7 +56,7 @@ public class JerseyClient extends AbstractClient {
 	protected void configure(JerseyClientConfig config, ClientFilter clientFilter) {
 		this.config = config;
 		this.client = ClientUtils.createClient(config.isVerbose());
-		this.filter = clientFilter != null ? clientFilter : new ClientFilter();
+		this.filter = clientFilter != null ? clientFilter : new ClientFilter(NAME+"/"+VERSION+" ("+URL+")");
 		
 		setTarget(client.target(config.getUri()));
 		getTarget().register(this.filter);
