@@ -22,8 +22,12 @@ import javax.ws.rs.core.NewCookie;
  */
 public class ClientFilter implements ClientRequestFilter, ClientResponseFilter {
 
+	/** Default Accept header value */
+	public static final String DEFAULT_ACCEPT_HEADER = "application/hal+json,application/json";
+	
 	private Map<String, NewCookie> cookies;
 	private String                 userAgent;
+	private String                 acceptableMediaTypes = DEFAULT_ACCEPT_HEADER;
 	
 	/**
 	 * Default Constructor.
@@ -39,6 +43,23 @@ public class ClientFilter implements ClientRequestFilter, ClientResponseFilter {
 	public ClientFilter(String userAgent) {
 		cookies = new HashMap<>();
 		this.userAgent = userAgent;
+	}
+
+	
+	/**
+	 * Returns the acceptable media types to signal to the sever. Default is {@link #DEFAULT_ACCEPT_HEADER}.
+	 * @return the acceptable mediatypes
+	 */
+	public String getAcceptableMediaTypes() {
+		return acceptableMediaTypes;
+	}
+
+	/**
+	 * Sets the acceptable media types to signal to the sever. Default is {@link #DEFAULT_ACCEPT_HEADER}.
+	 * @param acceptableMediaTypes the acceptable media types to set
+	 */
+	public void setAcceptableMediaTypes(String acceptableMediaTypes) {
+		this.acceptableMediaTypes = acceptableMediaTypes;
 	}
 
 	/**
@@ -70,6 +91,8 @@ public class ClientFilter implements ClientRequestFilter, ClientResponseFilter {
 				requestContext.getHeaders().add("Cookie", cookie.toString()); //cookie.getName()+'='+cookie.getValue());
 			}
 		}
+		String v = getAcceptableMediaTypes();
+		if (v != null) requestContext.getHeaders().add("Accept", v);
 	}
 
 }
