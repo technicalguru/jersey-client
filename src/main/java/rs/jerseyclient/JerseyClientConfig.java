@@ -3,6 +3,8 @@
  */
 package rs.jerseyclient;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 /**
  * Holds configuration info for the client.
  * <p>The class can be subclassed to add more config information.</p>
@@ -14,6 +16,7 @@ public class JerseyClientConfig {
 
 	private String uri;
 	private boolean verbose     = false;
+	private ObjectMapper mapper = null;
 	
 	/**
 	 * Default constructor.
@@ -61,6 +64,22 @@ public class JerseyClientConfig {
 	 */
 	public void setVerbose(boolean verbose) {
 		this.verbose = verbose;
+	}
+
+	/**
+	 * Returns the mapper.
+	 * @return the mapper
+	 */
+	public ObjectMapper getObjectMapper() {
+		return mapper;
+	}
+
+	/**
+	 * Sets the mapper.
+	 * @param mapper the mapper to set
+	 */
+	public void setObjectMapper(ObjectMapper mapper) {
+		this.mapper = mapper;
 	}
 
 	

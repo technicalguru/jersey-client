@@ -31,6 +31,8 @@ public class JerseyClient extends AbstractClient {
 
 	/**
 	 * Constructor.
+	 * <p>Be aware that the constructor immediately calls {@link #configure(JerseyClientConfig, ClientFilter)} and
+	 *    {@link #authorize()}.</p>
 	 * @param config - the config to be used
 	 */
 	public JerseyClient(JerseyClientConfig config) {
@@ -39,12 +41,14 @@ public class JerseyClient extends AbstractClient {
 	
 	/**
 	 * Constructor.
+	 * <p>Be aware that the constructor immediately calls {@link #configure(JerseyClientConfig, ClientFilter)} and
+	 *    {@link #authorize()}.</p>
 	 * @param config - the config to be used
 	 * @param clientFilter - a specific client filter to be used (defaults to {@link ClientFilter} if {@code null})
 	 */
 	public JerseyClient(JerseyClientConfig config, ClientFilter clientFilter) {
 		super();
-		configure(config, filter);
+		configure(config, clientFilter);
 		authorize();
 	}
 
@@ -55,7 +59,7 @@ public class JerseyClient extends AbstractClient {
 	 */
 	protected void configure(JerseyClientConfig config, ClientFilter clientFilter) {
 		this.config = config;
-		this.client = ClientUtils.createClient(config.isVerbose());
+		this.client = ClientUtils.createClient(config.isVerbose(), config.getObjectMapper());
 		this.filter = clientFilter != null ? clientFilter : new ClientFilter(NAME+"/"+VERSION+" ("+URL+")");
 		
 		setTarget(client.target(config.getUri()));
