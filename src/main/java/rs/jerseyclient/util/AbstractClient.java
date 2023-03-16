@@ -3,8 +3,12 @@
  */
 package rs.jerseyclient.util;
 
+import javax.ws.rs.ClientErrorException;
+import javax.ws.rs.ServerErrorException;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +16,8 @@ import org.slf4j.LoggerFactory;
 import rs.baselib.util.CommonUtils;
 import rs.jerseyclient.JerseyClientException;
 import rs.jerseyclient.data.HateOasPagedList;
-import rs.jerseyclient.data.ResultList;
 import rs.jerseyclient.data.HateOasPagedList.EmbeddedResultList;
+import rs.jerseyclient.data.ResultList;
 
 /**
  * The abstract implementation of all REST clients.
@@ -155,6 +159,34 @@ public abstract class AbstractClient {
 		return new ResultList<>(CommonUtils.newList(), pagedList.getPage());
 	}
 	
+	
+	/**
+	 * Helper method to raise exceptions in case of any other response than 2xx successful.
+	 * @param response the {@link Response} object
+	 */
+	protected void checkResponse(Response response) {
+		checkResponse(response, null);
+	}
+	
+	/**
+	 * Helper method to raise exceptions in case of any other response than 2xx successful.
+	 * @param <T> - the type of successful return
+	 * @param response the {@link Response} object
+	 * @param successValue the value to return when response was successfull
+	 * @return usually the successValue - everything else will raise a runtime exception
+	 */
+	protected <T> T checkResponse(Response response, T successValue) {
+		switch (response.getStatusInfo().getFamily()) {
+		case INFORMATIONAL:
+		case SUCCESSFUL: return successValue;
+		case REDIRECTION: throw new WebApplicationException(response);
+		case CLIENT_ERROR: throw new ClientErrorException(response);
+		case SERVER_ERROR: throw new ServerErrorException(response);
+		case OTHER: throw new WebApplicationException(response);
+		}
+		return successValue;
+	}
+
 	/**
 	 * Returns the logger for this client.
 	 * @return the logger
