@@ -5,6 +5,8 @@ package rs.jerseyclient;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import rs.jerseyclient.util.ProxyConfig;
+
 /**
  * Holds configuration info for the client.
  * <p>The class can be subclassed to add more config information.</p>
@@ -15,8 +17,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class JerseyClientConfig {
 
 	private String uri;
-	private boolean verbose     = false;
-	private ObjectMapper mapper = null;
+	private boolean verbose         = false;
+	private ObjectMapper mapper     = null;
+	private ProxyConfig proxyConfig = null;
 	
 	/**
 	 * Default constructor.
@@ -82,5 +85,20 @@ public class JerseyClientConfig {
 		this.mapper = mapper;
 	}
 
-	
+	/**
+	 * Returns the proxyConfig.
+	 * @return the proxyConfig
+	 */
+	public ProxyConfig getProxyConfig() {
+		return proxyConfig;
+	}
+
+	/**
+	 * Sets the proxyConfig.
+	 * @param proxyConfig the proxyConfig to set
+	 */
+	public void setProxyConfig(ProxyConfig proxyConfig) {
+		this.proxyConfig = proxyConfig;
+	}
+
 }

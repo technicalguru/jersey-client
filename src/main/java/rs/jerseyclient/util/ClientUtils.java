@@ -13,10 +13,12 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.GenericType;
 
 import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.HttpUrlConnectorProvider;
 import org.glassfish.jersey.logging.LoggingFeature;
 
 import com.fasterxml.jackson.core.util.JacksonFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
+import rs.jerseyclient.JerseyClientConfig;
 
 /**
  * Some useful methods.
@@ -33,28 +35,56 @@ public class ClientUtils {
 	 * @return the client created
 	 */
 	public static Client createClient(boolean verbose) {
-		return createClient(verbose, null);
+		JerseyClientConfig config = new JerseyClientConfig();
+		config.setVerbose(verbose);
+		return createClient(createClientConfig(config));
 	}
 	
 	/**
-	 * Create a JAX-WS client with a custom {@link ObjectMapper}.
+	 * Create a JAX-WS client config based on the jersey client config.
 	 * 
-	 * @param verbose - whether verbosity shall be enabled.
-	 * @param objectMapper - a custom ObjectMapper for JSON
-	 * @return the client created
+	 * @param config - the configuration to be used
+	 * @return the client configuration created
+	 * @see #applyProxyConfig(ClientConfig, ProxyConfig)
 	 */
-	public static Client createClient(boolean verbose, ObjectMapper objectMapper) {
+	public static ClientConfig createClientConfig(JerseyClientConfig config) {
 		ClientConfig clientConfig = new ClientConfig();
-		if (verbose) {
+		if (config.isVerbose()) {
 			clientConfig.property(LoggingFeature.LOGGING_FEATURE_VERBOSITY_CLIENT, LoggingFeature.Verbosity.PAYLOAD_TEXT);
 			clientConfig.property(LoggingFeature.LOGGING_FEATURE_LOGGER_LEVEL_CLIENT, Level.INFO.getName());
 		}
-		if (objectMapper != null) {
-			ObjectMapperProvider.setMapper(objectMapper);
+		if (config.getObjectMapper() != null) {
+			ObjectMapperProvider.setMapper(config.getObjectMapper());
 			clientConfig.register(ObjectMapperProvider.class);
 			clientConfig.register(JacksonFeature.class);
 		}
-		return ClientBuilder.newClient(clientConfig);
+		ProxyConfig proxyConfig = config.getProxyConfig();
+		if ((proxyConfig != null) && (proxyConfig.getProxyHost() != null)) {
+			applyProxyConfig(clientConfig, proxyConfig);
+		}
+
+		return clientConfig;
+	}
+	
+	/**
+	 * Configures the proxy based on the given proxy.
+	 * @param config - the Jersey config to change
+	 * @param proxyConfig - the proxy configuration
+	 */
+	public static void applyProxyConfig(ClientConfig config, ProxyConfig proxyConfig) {
+		config.connectorProvider(new HttpUrlConnectorProvider().connectionFactory(new ProxyConnectionFactory(proxyConfig)));
+		if (proxyConfig.getUsername() != null) {
+			config.register(new ProxyAuthFilter(proxyConfig.getUsername(), proxyConfig.getPassword()));
+		}
+	}
+
+	/**
+	 * Create a JAX-WS client based on the client config.
+	 * @param config the Jersey client config
+	 * @return the client created
+	 */
+	public static Client createClient(ClientConfig config) {
+		return ClientBuilder.newClient(config);
 	}
 	
 	/**
