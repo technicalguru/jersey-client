@@ -37,7 +37,7 @@ public class ClientUtils {
 	public static Client createClient(boolean verbose) {
 		JerseyClientConfig config = new JerseyClientConfig();
 		config.setVerbose(verbose);
-		return createClient(createClientConfig(config));
+		return createClient(createClientConfig(config), config.getProxyConfig());
 	}
 	
 	/**
@@ -68,14 +68,13 @@ public class ClientUtils {
 	
 	/**
 	 * Configures the proxy based on the given proxy.
+	 * <p>This method cannot apply authentication.</p>
 	 * @param config - the Jersey config to change
 	 * @param proxyConfig - the proxy configuration
+	 * @see #applyProxyConfig(Client, ProxyConfig)
 	 */
 	public static void applyProxyConfig(ClientConfig config, ProxyConfig proxyConfig) {
 		config.connectorProvider(new HttpUrlConnectorProvider().connectionFactory(new ProxyConnectionFactory(proxyConfig)));
-		if (proxyConfig.getUsername() != null) {
-			config.register(new ProxyAuthFilter(proxyConfig.getUsername(), proxyConfig.getPassword()));
-		}
 	}
 
 	/**
@@ -83,10 +82,26 @@ public class ClientUtils {
 	 * @param config the Jersey client config
 	 * @return the client created
 	 */
-	public static Client createClient(ClientConfig config) {
-		return ClientBuilder.newClient(config);
+	public static Client createClient(ClientConfig config, ProxyConfig proxyConfig) {
+		Client rc = ClientBuilder.newClient(config);
+		if ((proxyConfig != null) && (proxyConfig.getProxyHost() != null)) {
+			applyProxyConfig(rc, proxyConfig);
+		}
+		return rc;
 	}
 	
+	/**
+	 * Configures the client according to the proxy config.
+	 * <p>This method cannot apply the proxy host itself.</p>
+	 * @param client the client
+	 * @param proxyConfig the proxy configuration
+	 * @see #applyProxyConfig(ClientConfig, ProxyConfig)
+	 */
+	public static void applyProxyConfig(Client client, ProxyConfig proxyConfig) {
+		if (proxyConfig.getUsername() != null) {
+			client.register(new ProxyAuthFilter(proxyConfig.getUsername(), proxyConfig.getPassword()));
+		}
+	}
 	/**
 	 * Creates a {@link GenericType} reference for a list of given class.
 	 * <p>This method is intended to be used with JSON (de)serialization.</p>

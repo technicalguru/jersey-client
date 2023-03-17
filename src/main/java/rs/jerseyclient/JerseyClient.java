@@ -86,7 +86,7 @@ public class JerseyClient extends AbstractClient {
 	 * @see #createClientConfig()
 	 */
 	protected Client createClient() {
-		return ClientUtils.createClient(createClientConfig());
+		return ClientUtils.createClient(createClientConfig(), config.getProxyConfig());
 	}
 	
 	/**
