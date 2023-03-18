@@ -15,37 +15,26 @@ import javax.ws.rs.client.ClientResponseFilter;
 import javax.ws.rs.core.NewCookie;
 
 /**
- * Handles cookies in requests and responses.
+ * Handles cookies and "Accept" header in requests and responses.
  * 
  * @author ralph
  *
  */
-public class ClientFilter implements ClientRequestFilter, ClientResponseFilter {
+public class CookieAuthorizationFilter implements ClientRequestFilter, ClientResponseFilter {
 
 	/** Default Accept header value */
-	public static final String DEFAULT_ACCEPT_HEADER = "application/hal+json,application/json";
+	public static final String DEFAULT_ACCEPT_HEADER = "application/json";
 	
 	private Map<String, NewCookie> cookies;
-	private String                 userAgent;
 	private String                 acceptableMediaTypes = DEFAULT_ACCEPT_HEADER;
 	
 	/**
 	 * Default Constructor.
 	 */
-	public ClientFilter() {
-		this(null);
-	}
-
-	/**
-	 * Constructor.
-	 * @param userAgent - the user agent string to be used.
-	 */
-	public ClientFilter(String userAgent) {
+	public CookieAuthorizationFilter() {
 		cookies = new HashMap<>();
-		this.userAgent = userAgent;
 	}
 
-	
 	/**
 	 * Returns the acceptable media types to signal to the sever. Default is {@link #DEFAULT_ACCEPT_HEADER}.
 	 * @return the acceptable mediatypes
@@ -79,7 +68,6 @@ public class ClientFilter implements ClientRequestFilter, ClientResponseFilter {
 	 */
 	@Override
 	public void filter(ClientRequestContext requestContext) throws IOException {
-		if (userAgent != null) requestContext.getHeaders().add("User-Agent", userAgent);
 		Date now = new Date();
 		for (Map.Entry<String, NewCookie> entry : cookies.entrySet()) {
 			String name = entry.getKey();

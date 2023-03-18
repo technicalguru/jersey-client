@@ -7,6 +7,7 @@ import java.util.logging.Level;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.ClientRequestFilter;
 
 import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
 import org.glassfish.jersey.client.ClientConfig;
@@ -16,9 +17,10 @@ import org.glassfish.jersey.logging.LoggingFeature;
 import com.fasterxml.jackson.core.util.JacksonFeature;
 
 import rs.jerseyclient.util.AbstractClient;
-import rs.jerseyclient.util.ClientFilter;
+import rs.jerseyclient.util.CookieAuthorizationFilter;
 import rs.jerseyclient.util.ObjectMapperProvider;
 import rs.jerseyclient.util.ProxyConfig;
+import rs.jerseyclient.util.UserAgentFilter;
 
 
 /**
@@ -123,16 +125,30 @@ public class JerseyClient extends AbstractClient {
 	 * @see #registerAuthFilter(Client)
 	 */
 	protected void configure(Client client) {
-		registerAuthFilter(client);
+		client.register(new UserAgentFilter(getUserAgent()));
+		ClientRequestFilter authFilter = getAuthorizationFilter();
+		if (authFilter != null) client.register(authFilter);
 	}
 	
 	/**
-	 * Registers the default filter(s) for authorization.
-	 * @param client the client to be configured
-	 * @see ClientFilter
+	 * Returns the User-Agent string to be injected in calls.
+	 * @return the user agent string
+	 * @see #NAME
+	 * @see #VERSION
+	 * @see #URL
+	 * @see UserAgentFilter
 	 */
-	protected void registerAuthFilter(Client client) {
-		client.register(new ClientFilter(NAME+"/"+VERSION+" ("+URL+")"));
+	protected String getUserAgent() {
+		return NAME+"/"+VERSION+" ("+URL+")";
+	}
+	
+	/**
+	 * Returns the default filter(s) for authorization.
+	 * @return the authorization filter.
+	 * @see CookieAuthorizationFilter
+	 */
+	protected ClientRequestFilter getAuthorizationFilter() {
+		return new CookieAuthorizationFilter();
 	}
 	
 	/**
