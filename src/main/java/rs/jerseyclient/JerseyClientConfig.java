@@ -3,6 +3,7 @@
  */
 package rs.jerseyclient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import rs.jerseyclient.util.ProxyConfig;
@@ -73,6 +74,7 @@ public class JerseyClientConfig {
 	 * Returns the mapper.
 	 * @return the mapper
 	 */
+	@JsonIgnore
 	public ObjectMapper getObjectMapper() {
 		return mapper;
 	}
@@ -81,6 +83,7 @@ public class JerseyClientConfig {
 	 * Sets the mapper.
 	 * @param mapper the mapper to set
 	 */
+	@JsonIgnore
 	public void setObjectMapper(ObjectMapper mapper) {
 		this.mapper = mapper;
 	}
