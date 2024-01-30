@@ -1,0 +1,115 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>eu.ralph-schuster</groupId>
+		<artifactId>pom-oss</artifactId>
+		<version>2.1.0</version>
+	</parent>
+
+	<artifactId>jersey-client</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<name>${project.groupId}.${project.artifactId}</name>
+  	<packaging>jar</packaging>
+  	<description>Basic implementation to create RS WS clients with Jersey</description>
+  	
+	<properties>
+		<project.home>https://github.com/technicalguru/jersey-client</project.home>
+		<java.version>11</java.version>
+		<jersey.version>2.41</jersey.version>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<scm>
+		<connection>scm:git:https://github.com/technicalguru/jersey-client.git</connection>
+		<developerConnection>scm:git:https://github.com/technicalguru/jersey-client.git</developerConnection>
+		<url>https://github.com/technicalguru/jersey-client</url>
+		<tag>v1.0.0</tag>
+	</scm>
+
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/technicalguru/jersey-client/issues</url>
+	</issueManagement>
+
+	<developers>
+		<developer>
+			<id>technicalguru</id>
+		</developer>
+	</developers>
+
+	<dependencies>
+		<dependency>
+			<groupId>eu.ralph-schuster</groupId>
+			<artifactId>baselib</artifactId>
+			<version>4.1.2</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.glassfish.jersey.core</groupId>
+		    <artifactId>jersey-client</artifactId>
+		    <version>${jersey.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.glassfish.jersey.inject</groupId>
+		    <artifactId>jersey-hk2</artifactId>
+		    <version>${jersey.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.connectors/jersey-apache-connector -->
+		<dependency>
+		    <groupId>org.glassfish.jersey.connectors</groupId>
+		    <artifactId>jersey-apache-connector</artifactId>
+		    <version>${jersey.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.glassfish.jersey.media</groupId>
+		    <artifactId>jersey-media-json-jackson</artifactId>
+		    <version>${jersey.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-databind</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-annotations</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.module</groupId>
+					<artifactId>jackson-module-jaxb-annotations</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.fasterxml.jackson.module</groupId>
+			<artifactId>jackson-module-jaxb-annotations</artifactId>
+			<version>2.14.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.13.2</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<header><![CDATA[<a href="${project.url}" target="_new">Visit the ${project.name} Homepage</a>]]></header>
+					<detectJavaApiLink>false</detectJavaApiLink>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
