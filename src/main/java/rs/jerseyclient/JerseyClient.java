@@ -122,7 +122,7 @@ public class JerseyClient extends AbstractClient {
 	 * Configures the client by setting the default auth filter and - if applicable - the
 	 * proxy filter.
 	 * @param client the client to configure
-	 * @see #registerAuthFilter(Client)
+	 * @see #getAuthorizationFilter()
 	 */
 	protected void configure(Client client) {
 		client.register(new UserAgentFilter(getUserAgent()));
