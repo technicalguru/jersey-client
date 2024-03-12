@@ -8,11 +8,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.ws.rs.client.ClientRequestContext;
-import javax.ws.rs.client.ClientRequestFilter;
-import javax.ws.rs.client.ClientResponseContext;
-import javax.ws.rs.client.ClientResponseFilter;
-import javax.ws.rs.core.NewCookie;
+import jakarta.ws.rs.client.ClientRequestContext;
+import jakarta.ws.rs.client.ClientRequestFilter;
+import jakarta.ws.rs.client.ClientResponseContext;
+import jakarta.ws.rs.client.ClientResponseFilter;
+import jakarta.ws.rs.core.NewCookie;
+import jakarta.ws.rs.ext.RuntimeDelegate;
 
 /**
  * Handles cookies and "Accept" header in requests and responses.
@@ -76,7 +77,7 @@ public class CookieAuthorizationFilter implements ClientRequestFilter, ClientRes
 			if ((expiry != null) && expiry.before(now)) {
 				cookies.remove(name);
 			} else {
-				requestContext.getHeaders().add("Cookie", cookie.toString()); //cookie.getName()+'='+cookie.getValue());
+				requestContext.getHeaders().add("Cookie", RuntimeDelegate.getInstance().createHeaderDelegate(NewCookie.class).toString(cookie)); //cookie.getName()+'='+cookie.getValue());
 			}
 		}
 		String v = getAcceptableMediaTypes();
