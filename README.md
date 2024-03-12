@@ -7,7 +7,7 @@ A basic structure for building clients with jersey.
 <dependency>
 	<groupId>eu.ralph-schuster</groupId>
 	<artifactId>jersey-client</artifactId>
-	<version>2.0.0</version>
+	<version>2.0.1</version>
 </dependency>
 ```
 
@@ -111,6 +111,10 @@ Here are some examples how to implement methods in your clients:
 
 Javadoc API for latest stable version can be accessed [here](https://www.javadoc.io/doc/eu.ralph-schuster/jersey-client/latest//index.html).
 
+## Important Changes
+
+ * v2 is using Jakarta libraries - however, v2.0.0 was a broken release in that respect.
+ 
 ## Contribution
 
  * [Project Homepage](https://github.com/technicalguru/jersey-client)

@@ -25,7 +25,7 @@
 		<connection>scm:git:https://github.com/technicalguru/jersey-client.git</connection>
 		<developerConnection>scm:git:https://github.com/technicalguru/jersey-client.git</developerConnection>
 		<url>https://github.com/technicalguru/jersey-client</url>
-		<tag>v2.0.0</tag>
+		<tag>v2.0.1</tag>
 	</scm>
 
 	<issueManagement>
@@ -65,32 +65,8 @@
 		    <groupId>org.glassfish.jersey.media</groupId>
 		    <artifactId>jersey-media-json-jackson</artifactId>
 		    <version>${jersey.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>com.fasterxml.jackson.core</groupId>
-					<artifactId>jackson-databind</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.fasterxml.jackson.core</groupId>
-					<artifactId>jackson-core</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.fasterxml.jackson.core</groupId>
-					<artifactId>jackson-annotations</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.fasterxml.jackson.module</groupId>
-					<artifactId>jackson-module-jaxb-annotations</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		
-		<dependency>
-			<groupId>com.fasterxml.jackson.module</groupId>
-			<artifactId>jackson-module-jaxb-annotations</artifactId>
-			<version>2.16.2</version>
-		</dependency>
-
 	</dependencies>
 	
 	<build>
