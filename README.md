@@ -7,7 +7,7 @@ A basic structure for building clients with jersey.
 <dependency>
 	<groupId>eu.ralph-schuster</groupId>
 	<artifactId>jersey-client</artifactId>
-	<version>2.0.1</version>
+	<version>2.0.3</version>
 </dependency>
 ```
 
