@@ -7,7 +7,7 @@ A basic structure for building clients with jersey.
 <dependency>
 	<groupId>eu.ralph-schuster</groupId>
 	<artifactId>jersey-client</artifactId>
-	<version>2.0.3</version>
+	<version>2.1.0</version>
 </dependency>
 ```
 
@@ -113,6 +113,7 @@ Javadoc API for latest stable version can be accessed [here](https://www.javadoc
 
 ## Important Changes
 
+ * v2.1 requires Java 21 now
  * v2 is using Jakarta libraries - however, v2.0.0 was a broken release in that respect.
  
 ## Contribution

@@ -3,21 +3,21 @@
 	<parent>
 		<groupId>eu.ralph-schuster</groupId>
 		<artifactId>pom-oss</artifactId>
-		<version>3.0.2</version>
+		<version>21.0.0</version>
 	</parent>
 
 	<artifactId>jersey-client</artifactId>
-	<version>2.0.3-SNAPSHOT</version>
+	<version>2.1.0-SNAPSHOT</version>
 	<name>${project.groupId}.${project.artifactId}</name>
   	<packaging>jar</packaging>
   	<description>Basic implementation to create RS WS clients with Jersey</description>
   	
 	<properties>
 		<project.home>https://github.com/technicalguru/jersey-client</project.home>
-		<java.version>17</java.version>
+		<java.version>21</java.version>
 		<jersey.version>3.1.5</jersey.version>
-		<maven.compiler.source>17</maven.compiler.source>
-		<maven.compiler.target>17</maven.compiler.target>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -25,7 +25,7 @@
 		<connection>scm:git:https://github.com/technicalguru/jersey-client.git</connection>
 		<developerConnection>scm:git:https://github.com/technicalguru/jersey-client.git</developerConnection>
 		<url>https://github.com/technicalguru/jersey-client</url>
-		<tag>v2.0.3</tag>
+		<tag>v2.1.0</tag>
 	</scm>
 
 	<issueManagement>
@@ -43,7 +43,7 @@
 		<dependency>
 			<groupId>eu.ralph-schuster</groupId>
 			<artifactId>baselib</artifactId>
-			<version>5.0.3</version>
+			<version>5.1.0</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.glassfish.jersey.core</groupId>
